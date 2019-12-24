@@ -17,11 +17,12 @@ namespace orma
 		TSession(bento::IAllocator& allocator);
 		~TSession();
 
-		void init(const TCredentials& credentials);
+		void init();
 		void terminate();
 
 		// Interactions
 		void ping(bento::DynamicString& str);
+		void market_list(const TCredentials& credentials, bento::DynamicString& str);
 
 	private:
 		curl::CurlInstance* _curlInstance;

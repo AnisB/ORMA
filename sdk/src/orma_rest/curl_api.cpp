@@ -62,7 +62,7 @@ namespace orma
 			curl_easy_setopt(curl_ptr, CURLOPT_URL, url);
 
 			// We do not want the header in the response
-			curl_easy_setopt(curl_ptr, CURLOPT_HEADER, true ? 1L : 0L);
+			curl_easy_setopt(curl_ptr, CURLOPT_HEADER, false ? 1L : 0L);
 
 			// Build our header if necessary
 			struct curl_slist* chunk = nullptr;

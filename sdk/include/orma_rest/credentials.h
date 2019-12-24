@@ -10,11 +10,9 @@ namespace orma
 	{
 		ALLOCATOR_BASED;
 		TCredentials(bento::IAllocator& allocator)
-		: id (allocator)
-		, password (allocator)
+		: token(allocator)
 		{
 		}
-		bento::DynamicString id;
-		bento::DynamicString password;
+		bento::DynamicString token;
 	};
 }
