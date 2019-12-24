@@ -12,12 +12,8 @@ int main(int, char**)
 	// Create a session
 	orma::TSession session(systemAllocator);
 
-	// Declare our credentials
-	orma::TCredentials credentials(systemAllocator);
-	credentials.token = "INVALID";
-
 	// Init the session
-	session.init(credentials);
+	session.init();
 
 	// Do a ping request
 	bento::DynamicString message(systemAllocator);
