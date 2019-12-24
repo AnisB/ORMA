@@ -5,6 +5,7 @@
 
 // SDK includes
 #include "orma_rest/credentials.h"
+#include "orma_rest/curl_api.h"
 
 namespace orma
 {
@@ -13,11 +14,19 @@ namespace orma
 		ALLOCATOR_BASED;
 	public:
 		// Cst & Dst
-		TSession();
+		TSession(bento::IAllocator& allocator);
 		~TSession();
 
-		// Identification & drop
-		void connect(const TCredentials& credentials);
-		void disconnect();
+		void init(const TCredentials& credentials);
+		void terminate();
+
+		// Interactions
+		void ping(bento::DynamicString& str);
+
+	private:
+		curl::CurlInstance* _curlInstance;
+		curl::CurlMessage* _curlMessage;
+	public:
+		bento::IAllocator& _allocator;
 	};
 }

@@ -1,0 +1,4 @@
+cmake_minimum_required(VERSION 3.2)
+
+bento_exe("pinger" "applications" "pinger.cpp" "${ORMA_SDK_INCLUDE};${ORMA_3RD_INCLUDE}")
+target_link_libraries("pinger" "orma_sdk" "bento_sdk" "${ORMA_3RD_LIB}/libcurl_imp.lib")

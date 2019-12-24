@@ -17,4 +17,4 @@ foreach(source_dir ${sub_projects_sources})
 endforeach()
 
 # Generate the static library
-bento_static_lib("orma_sdk" "sdk" "${header_files};${source_files};" "${ORMA_SDK_INCLUDE};${ORMA_3RD_LIBRARIES};${BENTO_SDK_ROOT}/include")
+bento_static_lib("orma_sdk" "sdk" "${header_files};${source_files};" "${ORMA_SDK_INCLUDE};${ORMA_3RD_INCLUDE}/include;${BENTO_SDK_ROOT}/include")

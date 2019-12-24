@@ -87,7 +87,7 @@ end
 
 # String that defines the platform name that we will be compiling for (unique according to the target compiler/linktype/platform)
 def get_platform_name()
-	return " -DPLATFORM_NAME=" + $platform_name
+	return " -DPROJECT_PLATFORM_NAME=" + $platform_name
 end
 
 # String that defines output directory

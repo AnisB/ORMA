@@ -5,6 +5,10 @@ project(orma)
 set(BENTO_SDK_ROOT ${PROJECT_SOURCE_DIR}/bento)
 set(ORMA_SDK_ROOT ${PROJECT_SOURCE_DIR}/sdk)
 set(ORMA_CAPI_ROOT ${PROJECT_SOURCE_DIR}/c_api)
+set(ORMA_CAPI_APPLICATIONS ${PROJECT_SOURCE_DIR}/applications)
+set(ORMA_3RD_LIB ${PROJECT_SOURCE_DIR}/3rd/lib)
+set(ORMA_3RD_BIN ${PROJECT_SOURCE_DIR}/3rd/bin)
+set(ORMA_3RD_INCLUDE ${PROJECT_SOURCE_DIR}/3rd/include)
 
 # Set the cmake path variable
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
@@ -35,3 +39,6 @@ add_subdirectory(${ORMA_SDK_ROOT}/src)
 
 # Generate the dynamic library
 add_subdirectory(${ORMA_CAPI_ROOT}/src)
+
+# Generate the applications
+add_subdirectory(${ORMA_CAPI_APPLICATIONS})
