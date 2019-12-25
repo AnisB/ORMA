@@ -45,9 +45,10 @@ int main(int argc, char** argv)
 				logger->log(bento::LogLevel::info, "ITEM_DATABASE_ID", std::to_string(currentItem.databaseId).c_str());
 				uint32_t priceDifference = currentItem.requests[0].price - currentItem.offers[0].price;
 				uint32_t minItems = min(currentItem.requests[0].amount, currentItem.offers[0].amount);
+				logger->log(bento::LogLevel::info, "COST", std::to_string(currentItem.offers[0].price * minItems).c_str());
 				logger->log(bento::LogLevel::info, "BONUS_PER_ITEM", std::to_string(priceDifference).c_str());
 				logger->log(bento::LogLevel::info, "BONUS", std::to_string(priceDifference * minItems).c_str());
-				logger->log(bento::LogLevel::info, "COST", std::to_string(currentItem.offers[0].price * minItems).c_str());
+				logger->new_line();
 			}
 		}
 	}
