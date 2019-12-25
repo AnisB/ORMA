@@ -4,6 +4,9 @@
 #include <bento_base/log.h>
 #include <orma_rest/session.h>
 
+// External includes
+#include <string>
+
 int main(int, char**)
 {
 	// Create an allocator for our application
@@ -16,12 +19,21 @@ int main(int, char**)
 	session.init();
 
 	// Do a ping request
-	bento::DynamicString message(systemAllocator);
-	session.ping(message);
+	orma::TPingResponse pingReponse(systemAllocator);
+	session.ping(pingReponse);
 	
 	// Log the answer
 	bento::ILogger* logger = bento::default_logger();
-	logger->log(bento::LogLevel::info, "PING_MESSAGE", message.c_str());
+	if (pingReponse.validity)
+	{
+		logger->log(bento::LogLevel::info, "STATUS", "success");
+		logger->log(bento::LogLevel::info, "API VERSION", std::to_string(pingReponse.apiVersion).c_str());
+		logger->log(bento::LogLevel::info, "TIMESTAMP", pingReponse.timeStamp.c_str());
+	}
+	else
+	{
+		logger->log(bento::LogLevel::info, "ERROR", "Ping failed");
+	}
 
 	// Terminate the session
 	session.terminate();
