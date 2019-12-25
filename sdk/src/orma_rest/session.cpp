@@ -204,6 +204,61 @@ namespace orma
 		}
 	}
 
+	void TSession::database_list(const TCredentials& credentials, TDatabase& database)
+	{
+		// Create the parameter
+		bento::DynamicString auth(_allocator);
+		auth += "x-api-key:";
+		auth += credentials.token;
+
+		const char* authData[1];
+		authData[0] = auth.c_str();
+		const char* res = curl::request(_curlInstance, "https://api.originsro.org/api/v1/items/list", authData, 1, nullptr, nullptr, _curlMessage);
+
+		bool success = false;
+		if (res == nullptr)
+		{
+			try
+			{
+				// Parse the json answer
+				auto databaseJsonResponse = nlohmann::json::parse(curl::message_raw_data(_curlMessage));
+
+				// Fetch the number of shops
+				uint32_t numItems = (uint32_t)databaseJsonResponse["items"].size();
+				database.objects.resize(numItems);
+
+				// Fill the items
+				for (uint32_t itemIdx = 0; itemIdx < numItems; ++itemIdx)
+				{
+					// Fetch the current shop to process
+					TDatabaseObject& currentObject = database.objects[itemIdx];
+					auto itemJson = databaseJsonResponse["items"][itemIdx];
+
+					// Fill the shop identification data
+					currentObject.name = itemJson["name"].get<std::string>().c_str();
+					currentObject.databaseId = itemJson["item_id"].get<uint32_t>();
+
+					// Add it to the reference map
+					database.objectReference[currentObject.databaseId] = itemIdx;
+				}
+			}
+			catch (nlohmann::json::exception&)
+			{
+				bento::ILogger* logger = bento::default_logger();
+				logger->log(bento::LogLevel::error, "DATABASE", "Request failed");
+			}
+
+			// It worked out, perfect.
+			success = true;
+		}
+
+		if (!success)
+		{
+			database.objects.clear();
+			database.objectReference.clear();
+		}
+	}
+
 	void TSession::terminate()
 	{
 		curl::destroy_instance(_curlInstance);

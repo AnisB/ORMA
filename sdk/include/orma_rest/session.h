@@ -8,6 +8,7 @@
 #include "orma_rest/curl_api.h"
 #include "orma_rest/ping_response.h"
 #include "orma_rest/market.h"
+#include "orma_rest/database.h"
 
 namespace orma
 {
@@ -25,6 +26,7 @@ namespace orma
 		// Interactions
 		void ping(TPingResponse& pingResponse);
 		void market_list(const TCredentials& credentials, TMarket& market);
+		void database_list(const TCredentials& credentials, TDatabase& market);
 
 	private:
 		curl::CurlInstance* _curlInstance;

@@ -25,10 +25,10 @@ int main(int argc, char** argv)
 	orma::TCredentials credentials(systemAllocator);
 	credentials.token = argv[1];
 
-	// Do a ping request
+	// Grab the market's content
 	orma::TMarket market(systemAllocator);
 	session.market_list(credentials, market);
-	
+
 	// Log the result
 	bento::ILogger* logger = bento::default_logger();
 	for (auto& itemIT : market.items)
