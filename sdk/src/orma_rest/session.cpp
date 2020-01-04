@@ -32,7 +32,7 @@ namespace orma
 		_curlMessage = curl::create_message(_allocator);
 	}
 
-	void TSession::ping(TPingResponse& pingResponse)
+	bool TSession::ping(TPingResponse& pingResponse)
 	{
 		const char* res = curl::request(_curlInstance, "https://api.originsro.org/api/v1/ping", nullptr, 0, nullptr, nullptr, _curlMessage);
 		
@@ -58,6 +58,8 @@ namespace orma
 			pingResponse.apiVersion = UINT32_MAX;
 			pingResponse.timeStamp = "INVALID";
 		}
+
+		return success;
 	}
 
 	bool TOfferComparator(const TOffer& o1, const TOffer& o2)
@@ -70,7 +72,7 @@ namespace orma
 		return r1.price > r2.price;
 	}
 
-	void TSession::market_list(const TCredentials& credentials, TMarket& market)
+	bool TSession::market_list(const TCredentials& credentials, TMarket& market)
 	{
 		// Create the parameter
 		bento::DynamicString auth(_allocator);
@@ -202,9 +204,10 @@ namespace orma
 		{
 			market.shops.clear();
 		}
+		return success;
 	}
 
-	void TSession::database_list(const TCredentials& credentials, TDatabase& database)
+	bool TSession::database_list(const TCredentials& credentials, TDatabase& database)
 	{
 		// Create the parameter
 		bento::DynamicString auth(_allocator);
@@ -237,26 +240,24 @@ namespace orma
 					// Fill the shop identification data
 					currentObject.name = itemJson["name"].get<std::string>().c_str();
 					currentObject.databaseId = itemJson["item_id"].get<uint32_t>();
-
-					// Add it to the reference map
-					database.objectReference[currentObject.databaseId] = itemIdx;
+					currentObject.npcPrice = itemJson["npc_price"].get<uint32_t>();
 				}
+
+				// It worked out, perfect.
+				success = true;
 			}
 			catch (nlohmann::json::exception&)
 			{
 				bento::ILogger* logger = bento::default_logger();
 				logger->log(bento::LogLevel::error, "DATABASE", "Request failed");
 			}
-
-			// It worked out, perfect.
-			success = true;
 		}
 
 		if (!success)
 		{
 			database.objects.clear();
-			database.objectReference.clear();
 		}
+		return success;
 	}
 
 	void TSession::terminate()

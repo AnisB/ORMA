@@ -24,9 +24,9 @@ namespace orma
 		void terminate();
 
 		// Interactions
-		void ping(TPingResponse& pingResponse);
-		void market_list(const TCredentials& credentials, TMarket& market);
-		void database_list(const TCredentials& credentials, TDatabase& market);
+		bool ping(TPingResponse& pingResponse);
+		bool market_list(const TCredentials& credentials, TMarket& market);
+		bool database_list(const TCredentials& credentials, TDatabase& market);
 
 	private:
 		curl::CurlInstance* _curlInstance;

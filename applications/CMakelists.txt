@@ -5,3 +5,6 @@ target_link_libraries("pinger" "orma_sdk" "bento_sdk" "${ORMA_3RD_LIB}/libcurl.l
 
 bento_exe("free_money" "applications" "free_money.cpp" "${ORMA_SDK_INCLUDE};${ORMA_3RD_INCLUDE}")
 target_link_libraries("free_money" "orma_sdk" "bento_sdk" "${ORMA_3RD_LIB}/libcurl.lib")
+
+bento_exe("database_builder" "applications" "database_builder.cpp" "${ORMA_SDK_INCLUDE};${ORMA_3RD_INCLUDE}")
+target_link_libraries("database_builder" "orma_sdk" "bento_sdk" "${ORMA_3RD_LIB}/libcurl.lib")
