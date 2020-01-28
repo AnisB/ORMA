@@ -143,13 +143,20 @@ int main(int argc, char** argv)
 					// Fill the shop identification data
 					if (currentItem.offers[offerIdx].price < majoratedPrice)
 					{
-						logger->log(bento::LogLevel::info, "ITEM_DATABASE_NAME", currentObject.name.c_str());
-						logger->log(bento::LogLevel::info, "ITEM_DATABASE_ID", std::to_string(currentItem.databaseId).c_str());
+						const orma::TShop& currentShop = market.shops[currentItem.offers[offerIdx].sellerId];
+
 						uint32_t priceDifference = majoratedPrice - currentItem.offers[offerIdx].price;
 						uint32_t minItems = currentItem.offers[offerIdx].amount;
+
+						logger->log(bento::LogLevel::info, "ITEM_DATABASE_NAME", currentObject.name.c_str());
+						logger->log(bento::LogLevel::info, "ITEM_DATABASE_ID", std::to_string(currentItem.databaseId).c_str());
 						logger->log(bento::LogLevel::info, "COST", std::to_string(currentItem.offers[offerIdx].price * minItems).c_str());
+						logger->log(bento::LogLevel::info, "MAP", currentShop.map.c_str());
+						logger->log(bento::LogLevel::info, "VENDOR_PRICE", std::to_string(currentItem.offers[offerIdx].price).c_str());
+						logger->log(bento::LogLevel::info, "MAJORATED_PRICE", std::to_string(majoratedPrice).c_str());
 						logger->log(bento::LogLevel::info, "BONUS_PER_ITEM", std::to_string(priceDifference).c_str());
 						logger->log(bento::LogLevel::info, "BONUS", std::to_string(priceDifference * minItems).c_str());
+
 						logger->new_line();
 					}
 					else
